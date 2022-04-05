@@ -17,7 +17,7 @@ chromedriver_autoinstaller.install()
 class Miraen_DownIMAGE():
     def __init__(self, book_code, page_num):
         print('============ New Logging! ============')
-        self.path = '../Data'
+        self.path = 'Data'
         self.headers = Headers(headers=True).generate()
         self.book_code = book_code
         self.page_num = page_num
@@ -119,7 +119,7 @@ class Miraen_DownIMAGE():
 
 
 if __name__ == '__main__':
-    log_dir = "../Data/logs/Miraen_DownIMAGE_model.log"
+    log_dir = "/Data/logs/Miraen_DownIMAGE_model.log"
     logger = logging.getLogger('Mirae_DownIMAGE_model')
     fomatter = logging.Formatter(
         '[%(levelname)s|%(filename)s:%(lineno)s] %(asctime)s > %(message)s')

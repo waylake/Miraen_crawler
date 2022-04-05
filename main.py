@@ -1,7 +1,5 @@
 import utils.info as info
-from fake_headers import Headers
 from selenium import webdriver
-import requests
 import os
 import time
 import chromedriver_autoinstaller
@@ -35,7 +33,6 @@ class Miraen_DownIMAGE():
         print('============ New Logging! ============')
         self.path = 'Data'
         self.check_dir()
-        self.headers = Headers(headers=True).generate()
         self.book_code = book_code
         self.page_num = page_num
         self.driver = webdriver.Chrome()
@@ -113,8 +110,6 @@ class Miraen_DownIMAGE():
         logger.info(f'============ Downloading ... ============')
         try:
             for i in tqdm(range(len(self.url_list))):
-                self.response = requests.get(
-                    self.url_list[i], headers=self.headers)
                 os.system(
                     f'wget -o ../Data/logs/wget_logs/wget_{i}.log {self.IMG_URL_List[i]} -O {self.path}/book/{i}_{self.book_code}.jpg')
 

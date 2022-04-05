@@ -5,6 +5,7 @@ import requests
 import os
 import time
 import chromedriver_autoinstaller
+import sys
 import pickle
 import logging.handlers
 import html_to_json
@@ -14,17 +15,32 @@ from fpdf import FPDF
 chromedriver_autoinstaller.install()
 
 
+log_dir = "Miraen_DownIMAGE_model.log"
+
+logger = logging.getLogger('Mirae_DownIMAGE_model')
+fomatter = logging.Formatter(
+    '[%(levelname)s|%(filename)s:%(lineno)s] %(asctime)s > %(message)s')
+fileHandler = logging.FileHandler(log_dir)
+streamHandler = logging.StreamHandler()
+fileHandler.setFormatter(fomatter)
+streamHandler.setFormatter(fomatter)
+logger.addHandler(fileHandler)
+logger.addHandler(streamHandler)
+logger.setLevel(logging.DEBUG)
+
+
 class Miraen_DownIMAGE():
     def __init__(self, book_code, page_num):
+
         print('============ New Logging! ============')
         self.path = 'Data'
+        self.check_dir()
         self.headers = Headers(headers=True).generate()
         self.book_code = book_code
         self.page_num = page_num
         self.driver = webdriver.Chrome()
         self.IMG_URL_List = []
         self.url_list = []
-        self.check_dir()
         self.makeURL_List()
         self.get_IMAGE_URL_List()
         self.download_PAGE()
@@ -36,6 +52,8 @@ class Miraen_DownIMAGE():
     def check_dir(self):
         logger.info(f'============ Checking Directory ... ============')
         try:
+            if not os.path.exists(f'Data'):
+                os.mkdir(f'Data')
             if not os.path.exists(f'{self.path}/book'):
                 os.makedirs(f'{self.path}/book')
             if not os.path.exists(f'{self.path}/logs'):
@@ -49,6 +67,7 @@ class Miraen_DownIMAGE():
         except Exception as e:
             logger.error(
                 f'============ Error Occured at check_dir() {e} ============')
+            sys.exit(1)
 
     def makeURL_List(self):
         logger.info(f'============ URL Listing ... ============')
@@ -119,17 +138,6 @@ class Miraen_DownIMAGE():
 
 
 if __name__ == '__main__':
-    log_dir = "/Data/logs/Miraen_DownIMAGE_model.log"
-    logger = logging.getLogger('Mirae_DownIMAGE_model')
-    fomatter = logging.Formatter(
-        '[%(levelname)s|%(filename)s:%(lineno)s] %(asctime)s > %(message)s')
-    fileHandler = logging.FileHandler(log_dir)
-    streamHandler = logging.StreamHandler()
-    fileHandler.setFormatter(fomatter)
-    streamHandler.setFormatter(fomatter)
-    logger.addHandler(fileHandler)
-    logger.addHandler(streamHandler)
-    logger.setLevel(logging.DEBUG)
 
     for book_name in info.BOOK_NAME_LIST:
         print(f"============ {book_name} ============")

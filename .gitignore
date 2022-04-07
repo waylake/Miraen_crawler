@@ -1,3 +1,13 @@
 *.keep
 *.log
 *.pkl
+Data/
+*.bak
+*.pickle
+*.xlsx
+*.out
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
